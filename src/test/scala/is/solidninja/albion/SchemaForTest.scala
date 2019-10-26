@@ -217,4 +217,17 @@ object SchemaForTest extends SimpleTestSuite {
     assertEquals(got, expected)
   }
 
+  final case class SnakeCaseShowcase(personName: String, ageOfElephant: Option[Double])
+
+  test("converting camel case field names to snake_case should work") {
+    val expected: TableSchema = TableSchema(
+      TableField("person_name").string,
+      TableField("age_of_elephant").nullable.double
+    )
+
+    implicit val config: Configuration = Configuration().withSnakeCaseMemberNames
+    val _ = config
+    val got = SchemaFor[SnakeCaseShowcase].schema
+    assertEquals(got, expected)
+  }
 }

@@ -41,7 +41,7 @@ trait SchemaFor[T] {
 
   final def schema: TableSchema = repr match {
     case p: SchemaRepr.Primitive =>
-      throw new IllegalArgumentException(s"Cannot derive a table schema for a primitive type $p")
+      throw UnableToDerive(s"Cannot derive a table schema for a primitive type $p")
     case s: SchemaRepr.Struct => TableSchema(s.fields)
   }
 }
@@ -49,7 +49,7 @@ trait SchemaFor[T] {
 object SchemaFor {
   type Typeclass[T] = SchemaFor[T]
 
-  def apply[T](implicit ev: SchemaFor[T]): SchemaFor[T] = ev
+  def apply[T](implicit ev: Typeclass[T]): Typeclass[T] = ev
 
   private def instance[T](theRepr: SchemaRepr): SchemaFor[T] = new SchemaFor[T] {
     override private[albion] val repr = theRepr
@@ -79,10 +79,10 @@ object SchemaFor {
     case _                     => instance(ev.repr.setMode(BQField.Mode.NULLABLE))
   }
 
-  implicit def arraySchema[T](implicit ev: SchemaFor[T]): SchemaFor[Array[T]] = repeated[Array, T]
-  implicit def listSchema[T](implicit ev: SchemaFor[T]): SchemaFor[List[T]] = repeated[List, T]
-  implicit def vectorSchema[T](implicit ev: SchemaFor[T]): SchemaFor[Vector[T]] = repeated[Vector, T]
-  implicit def seqSchema[T](implicit ev: SchemaFor[T]): SchemaFor[Seq[T]] = repeated[Seq, T]
+  implicit def arraySchema[T: SchemaFor]: SchemaFor[Array[T]] = repeated[Array, T]
+  implicit def listSchema[T: SchemaFor]: SchemaFor[List[T]] = repeated[List, T]
+  implicit def vectorSchema[T: SchemaFor]: SchemaFor[Vector[T]] = repeated[Vector, T]
+  implicit def seqSchema[T: SchemaFor]: SchemaFor[Seq[T]] = repeated[Seq, T]
 
   implicit def forCustomDisplayAsString[T: DisplayAsString]: SchemaFor[T] = primitive(SQLType.string)
 
@@ -94,7 +94,7 @@ object SchemaFor {
   private def repeated[C[_], T](implicit ev: SchemaFor[T]): SchemaFor[C[T]] = ev.repr.mode match {
     // it's also not safe to have nested repeated modes
     case BQField.Mode.REPEATED =>
-      throw new IllegalArgumentException(s"Cannot make something repeated twice, already have ${ev.repr}")
+      throw UnableToDerive(s"Cannot make something repeated twice, already have ${ev.repr}")
     case _ => instance(ev.repr.setMode(BQField.Mode.REPEATED))
   }
 
@@ -108,7 +108,7 @@ object SchemaFor {
   }
 
   def dispatch[T](sealedTrait: SealedTrait[Typeclass, T]): Typeclass[T] =
-    throw new IllegalArgumentException(
+    throw UnableToDerive(
       s"Unable to derive schema for a sealed trait ${sealedTrait.typeName} because BigQuery has no union support"
     )
 

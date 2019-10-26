@@ -9,6 +9,6 @@ lazy val albion = Project(
 ).settings(
   commonSettings,
   Seq(
-    libraryDependencies ++= bigquery ++ magnolia ++ scalatest ++ runtimeLogging
+    libraryDependencies ++= bigquery ++ `cats-effect` ++ fs2 ++ magnolia ++ scalatest ++ runtimeLogging
   )
 )
