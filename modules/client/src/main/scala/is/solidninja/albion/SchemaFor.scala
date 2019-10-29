@@ -55,6 +55,9 @@ object SchemaFor {
     override private[albion] val repr = theRepr
   }
 
+  // convert existing schema to a SchemaFor
+  implicit def fromExistingSchema[T](schema: TableSchema): SchemaFor[T] = instance(SchemaRepr.Struct(schema.fields))
+
   implicit val bigDecimalSchema: SchemaFor[BigDecimal] = primitive(SQLType.numeric)
   implicit val jBigDecimalSchema: SchemaFor[java.math.BigDecimal] = primitive(SQLType.numeric)
   implicit val booleanSchema: SchemaFor[Boolean] = primitive(SQLType.bool)
@@ -99,18 +102,20 @@ object SchemaFor {
   }
 
   def combine[T](caseClass: CaseClass[Typeclass, T])(implicit config: Configuration = Configuration()): Typeclass[T] = {
-    val fields = caseClass.parameters.map { p =>
-      val newLabel = config.transformMemberNames(p.label)
-      p.typeclass.repr.toTableField(newLabel)
+    if (caseClass.isValueClass) {
+      val param = caseClass.parameters.head
+      instance(param.typeclass.repr)
+    } else if (caseClass.isObject) {
+      throw UnableToDerive(s"Singleton objects are not supported for derivation, tried: ${caseClass.typeName.full}")
+    } else {
+      val fields = caseClass.parameters.map { p =>
+        val newLabel = config.transformMemberNames(p.label)
+        p.typeclass.repr.toTableField(newLabel)
+      }
+
+      instance(SchemaRepr.Struct(fields.toList))
     }
-
-    instance(SchemaRepr.Struct(fields.toList))
   }
-
-  def dispatch[T](sealedTrait: SealedTrait[Typeclass, T]): Typeclass[T] =
-    throw UnableToDerive(
-      s"Unable to derive schema for a sealed trait ${sealedTrait.typeName} because BigQuery has no union support"
-    )
 
   @debug
   implicit def gen[T]: Typeclass[T] = macro Magnolia.gen[T]

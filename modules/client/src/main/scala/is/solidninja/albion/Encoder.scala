@@ -42,9 +42,9 @@ object Encoder {
 
   // BigQuery only supports microsecond precision
   private val InstantFormat = new DateTimeFormatterBuilder().appendInstant(6).toFormatter()
-  private val DateFormat = DateTimeFormatter.ofPattern("uuuu-MM-dd")
-  private val DateTimeFormat = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSSSSS")
-  private val TimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss.SSSSSS")
+  private[albion] val DateFormat = DateTimeFormatter.ofPattern("uuuu-MM-dd")
+  private[albion] val DateTimeFormat = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSSSSS")
+  private[albion] val TimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss.SSSSSS")
 
   def apply[T](implicit ev: Typeclass[T]): Typeclass[T] = ev
 
@@ -104,11 +104,6 @@ object Encoder {
       }
     }
   }
-
-  def dispatch[T](sealedTrait: SealedTrait[Typeclass, T]): Typeclass[T] =
-    throw UnableToDerive(
-      s"Unable to derive encoder for a sealed trait ${sealedTrait.typeName} because BigQuery has no union support"
-    )
 
   @debug
   implicit def gen[T]: Typeclass[T] = macro Magnolia.gen[T]

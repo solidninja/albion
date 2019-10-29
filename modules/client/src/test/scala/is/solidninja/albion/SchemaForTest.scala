@@ -230,4 +230,17 @@ object SchemaForTest extends SimpleTestSuite {
     val got = SchemaFor[SnakeCaseShowcase].schema
     assertEquals(got, expected)
   }
+
+  final case class AnyValName(n: String) extends AnyVal
+  final case class AnyValCase(name: AnyValName, b: Int)
+
+  test("AnyVal should have the same schema as the primitive type") {
+    val expected: TableSchema = TableSchema(
+      TableField("name").string,
+      TableField("b").long
+    )
+
+    val got = SchemaFor[AnyValCase].schema
+    assertEquals(got, expected)
+  }
 }

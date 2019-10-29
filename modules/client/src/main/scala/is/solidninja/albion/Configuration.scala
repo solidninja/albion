@@ -15,7 +15,7 @@ final case class Configuration(transformMemberNames: String => String = identity
   )
 }
 
-// take from circe-derivation
+// taken from circe-derivation project
 private[albion] object renaming {
 
   /** Snake case mapping */

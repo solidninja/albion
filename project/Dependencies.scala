@@ -5,10 +5,12 @@ object Dependencies {
   object Versions {
     val cats = "2.0.0"
     val `cats-effect` = "2.0.0"
-    val fs2 = "2.0.1"
+    val diffx = "0.3.8"
     val `google-cloud` = "1.98.0"
     val magnolia = "0.12.0"
     val minitest = "2.7.0"
+    val `random-data-generator` = "2.7"
+    val `scala-collections-compat` = "2.1.2"
     val `scala-logging` = "3.9.2"
   }
 
@@ -21,8 +23,8 @@ object Dependencies {
     "org.typelevel" %% "cats-effect" % Versions.`cats-effect`
   )
 
-  val fs2 = Seq(
-    "co.fs2" %% "fs2-core" % Versions.fs2
+  val `collections-compat` = Seq(
+    "org.scala-lang.modules" %% "scala-collection-compat" % Versions.`scala-collections-compat`
   )
 
   val magnolia = Seq(
@@ -30,7 +32,9 @@ object Dependencies {
   )
 
   val scalatest = Seq(
-    "io.monix" %% "minitest" % Versions.minitest % Test
+    "com.danielasfregola" %% "random-data-generator-magnolia" % Versions.`random-data-generator` % "it,test",
+    "com.softwaremill.diffx" %% "diffx-core" % Versions.diffx % "it,test",
+    "io.monix" %% "minitest" % Versions.minitest % "it,test"
   )
 
   val runtimeLogging = Seq(
