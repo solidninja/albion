@@ -20,6 +20,8 @@ import com.google.cloud.bigquery.{
 }
 import magnolia._
 
+import ScalaCompat._
+
 /**
   * Internal representation of the BigQuery encoded content
   */
@@ -40,7 +42,7 @@ private[albion] object EncodedRepr {
   final case class Repeated private (values: List[EncodedRepr]) extends EncodedRepr
 
   object Repeated {
-    def apply(values: List[BQFieldValue], _ev: Unit): Repeated = {
+    def apply(values: List[BQFieldValue], _ev: Dummy): Repeated = {
       val _ = _ev // ugly hack
       new Repeated(
         values.map(
@@ -58,7 +60,7 @@ private[albion] object EncodedRepr {
 }
 
 /**
-  * Transformer from the BigQuery internal result representation into a type [[A]]
+  * Transformer from the BigQuery internal result representation into a type `A`
   */
 trait Decoder[A] { self =>
   def decode(repr: EncodedRepr): Either[DecodingError, A]

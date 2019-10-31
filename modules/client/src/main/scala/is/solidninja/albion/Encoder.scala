@@ -25,7 +25,7 @@ private[albion] object MapRepr {
 }
 
 /**
-  * An Encoder that takes a scala type [[T]] and converts it into a representation that is insertable into a BigQuery
+  * An Encoder that takes a scala type `T` and converts it into a representation that is insertable into a BigQuery
   * table
   */
 trait Encoder[T] {

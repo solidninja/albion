@@ -3,12 +3,16 @@ import build._
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
+// Enable pinentry
+Global / useGpgPinentry := true
+
 lazy val `albion-client` = project
   .in(file("modules/client"))
   .configs(IntegrationTest)
   .settings(
     Defaults.itSettings,
     commonSettings,
+    publishSettings,
     Seq(
       libraryDependencies ++= bigquery ++ `cats-effect` ++ `collections-compat` ++ magnolia ++ scalatest ++ runtimeLogging
     )
@@ -20,8 +24,10 @@ lazy val examples = project
   .settings(
     Defaults.itSettings,
     commonSettings,
+    publishSettings,
     Seq(
-      libraryDependencies ++= runtimeLogging
+      libraryDependencies ++= runtimeLogging,
+      publishArtifact := false
     )
   )
   .dependsOn(`albion-client`)
@@ -31,9 +37,11 @@ lazy val root = project
   .configs(IntegrationTest)
   .settings(
     commonSettings,
+    publishSettings,
     Seq(
       name := "albion",
-      skip in publish := true
+      publishArtifact := false,
+      crossScalaVersions := Nil
     )
   )
   .aggregate(`albion-client`, examples)

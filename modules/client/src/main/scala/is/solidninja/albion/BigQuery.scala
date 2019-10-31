@@ -126,10 +126,8 @@ trait BigQuery[F[_]] {
 }
 
 object BigQuery extends StrictLogging {
-
-  final case class IterableResult[A](rowCount: Long, iterator: Iterator[A]) extends IterableOnce[A] {
-    override def knownSize: Int = rowCount.toInt
-  }
+  type IterableResult[A] = is.solidninja.albion.IterableResult[A]
+  val IterableResult = is.solidninja.albion.IterableResult
 
   def apply[F[_]: Sync](projectId: ProjectId, location: Option[String]): F[BigQuery[F]] =
     rawBigQuery(projectId, location).map(fromRaw[F])
