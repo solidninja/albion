@@ -40,11 +40,11 @@ trait Encoder[T] {
 object Encoder {
   type Typeclass[T] = Encoder[T]
 
-  // BigQuery only supports microsecond precision
+  // BigQuery only supports microsecond precision, and these formats should only be used for encoding
   private val InstantFormat = new DateTimeFormatterBuilder().appendInstant(6).toFormatter()
-  private[albion] val DateFormat = DateTimeFormatter.ofPattern("uuuu-MM-dd")
-  private[albion] val DateTimeFormat = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSSSSS")
-  private[albion] val TimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss.SSSSSS")
+  private val DateFormat = DateTimeFormatter.ofPattern("uuuu-MM-dd")
+  private val DateTimeFormat = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSSSSS")
+  private val TimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss[.SSSSSS]")
 
   def apply[T](implicit ev: Typeclass[T]): Typeclass[T] = ev
 
