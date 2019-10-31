@@ -17,5 +17,11 @@ stages:
   - test
 
 test:
+  variables:
+    GOOGLE_APPLICATION_CREDENTIALS: "/tmp/google-application-credentials.json"
+  before_script:
+    - base64 -d $GCLOUD_SECRET >> $GOOGLE_APPLICATION_CREDENTIALS
   script:
-    - sbt scalafmtSbtCheck scalafmtCheck test:scalafmtCheck test
+    - sbt scalafmtSbtCheck scalafmtCheck test:scalafmtCheck it:scalafmtCheck test it:test
+  after_script:
+    - rm $GCLOUD_SECRET $GOOGLE_APPLICATION_CREDENTIALS

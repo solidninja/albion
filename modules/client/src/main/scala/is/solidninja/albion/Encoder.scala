@@ -44,7 +44,7 @@ object Encoder {
   private val InstantFormat = new DateTimeFormatterBuilder().appendInstant(6).toFormatter()
   private val DateFormat = DateTimeFormatter.ofPattern("uuuu-MM-dd")
   private val DateTimeFormat = DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ss.SSSSSS")
-  private val TimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss[.SSSSSS]")
+  private val TimeFormat = DateTimeFormatter.ofPattern("HH:mm:ss.SSSSSS")
 
   def apply[T](implicit ev: Typeclass[T]): Typeclass[T] = ev
 

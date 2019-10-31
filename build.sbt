@@ -14,6 +14,18 @@ lazy val `albion-client` = project
     )
   )
 
+lazy val examples = project
+  .in(file("modules/examples"))
+  .configs(IntegrationTest)
+  .settings(
+    Defaults.itSettings,
+    commonSettings,
+    Seq(
+      libraryDependencies ++= runtimeLogging
+    )
+  )
+  .dependsOn(`albion-client`)
+
 lazy val root = project
   .in(file("."))
   .configs(IntegrationTest)
@@ -24,5 +36,5 @@ lazy val root = project
       skip in publish := true
     )
   )
-  .aggregate(`albion-client`)
+  .aggregate(`albion-client`, examples)
   .dependsOn(`albion-client`)
