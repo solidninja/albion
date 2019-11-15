@@ -1,5 +1,3 @@
-[![pipeline status](https://gitlab.com/solidninja/albion/badges/master/pipeline.svg)](https://gitlab.com/solidninja/albion/commits/master)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/is.solidninja.albion/albion-client/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/is.solidninja.albion/albion-client)
 
 # Albion, a BigQuery client for Scala
 
@@ -29,6 +27,8 @@ BigQuery[IO](ProjectId("gcp-project-id"), location = None)
 There are more examples in the [examples](modules/examples) project and in the tests. (More advanced examples like 
 creating a column partitioned dataset with expiration are yet to be written).
 
+To run the examples, you need to be authenticated with a Google Cloud account, for example via 
+[`gcloud auth login`](gcloud-auth-login).
 
 ## License
 
@@ -36,3 +36,4 @@ This project is licensed as [MIT][mit-license].
 
 [mit-license]: https://opensource.org/licenses/MIT
 [gcloud-bigquery-quickstart]: https://cloud.google.com/bigquery/docs/quickstarts/quickstart-client-libraries#complete_source_code
+[gcloud-auth-login]: https://cloud.google.com/sdk/gcloud/reference/auth/login
