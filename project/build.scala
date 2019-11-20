@@ -1,6 +1,8 @@
 import sbt._
 import Keys._
 
+import xerial.sbt.Sonatype.autoImport.sonatypeProfileName
+
 object build {
 
   val manifestSetting = packageOptions += {
@@ -61,6 +63,7 @@ object build {
         Opts.resolver.sonatypeStaging
     ),
     publishMavenStyle := true,
-    publishArtifact in Test := false
+    publishArtifact in Test := false,
+    sonatypeProfileName := "is.solidninja"
   )
 }
