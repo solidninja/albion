@@ -1,3 +1,5 @@
+[![pipeline status](https://gitlab.com/solidninja/albion/badges/master/pipeline.svg)](https://gitlab.com/solidninja/albion/commits/master)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/is.solidninja.albion/albion-client/badge.svg?style=plastic)](https://maven-badges.herokuapp.com/maven-central/is.solidninja.albion/albion-client)
 
 # Albion, a BigQuery client for Scala
 
