@@ -9,7 +9,7 @@ object Dependencies {
     val `google-cloud` = "1.98.0"
     val magnolia = "0.12.0"
     val minitest = "2.7.0"
-    val `random-data-generator` = "2.7"
+    val `random-data-generator` = "2.8"
     val `scala-collections-compat` = "2.1.2"
     val `scala-logging` = "3.9.2"
   }
