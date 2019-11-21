@@ -5,7 +5,7 @@ object Dependencies {
   object Versions {
     val cats = "2.0.0"
     val `cats-effect` = "2.0.0"
-    val diffx = "0.3.8"
+    val diffx = "0.3.10"
     val `google-cloud` = "1.98.0"
     val magnolia = "0.12.0"
     val minitest = "2.7.0"
