@@ -7,7 +7,7 @@ object Dependencies {
     val `cats-effect` = "2.0.0"
     val diffx = "0.3.8"
     val `google-cloud` = "1.98.0"
-    val magnolia = "0.12.0"
+    val magnolia = "0.12.2"
     val minitest = "2.7.0"
     val `random-data-generator` = "2.7"
     val `scala-collections-compat` = "2.1.2"
