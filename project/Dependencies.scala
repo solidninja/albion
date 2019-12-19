@@ -3,8 +3,8 @@ import sbt._
 object Dependencies {
 
   object Versions {
-    val cats = "2.0.0"
-    val `cats-effect` = "2.0.0"
+    val cats = "2.1.0"
+    val `cats-effect` = "2.1.0"
     val diffx = "0.3.8"
     val `google-cloud` = "1.98.0"
     val magnolia = "0.12.0"
