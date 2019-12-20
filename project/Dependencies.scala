@@ -3,14 +3,14 @@ import sbt._
 object Dependencies {
 
   object Versions {
-    val cats = "2.0.0"
+    val cats = "2.1.0"
     val `cats-effect` = "2.0.0"
-    val diffx = "0.3.8"
-    val `google-cloud` = "1.98.0"
-    val magnolia = "0.12.0"
+    val diffx = "0.3.15"
+    val `google-cloud` = "1.102.0"
+    val magnolia = "0.12.5"
     val minitest = "2.7.0"
-    val `random-data-generator` = "2.7"
-    val `scala-collections-compat` = "2.1.2"
+    val `random-data-generator` = "2.8"
+    val `scala-collections-compat` = "2.1.3"
     val `scala-logging` = "3.9.2"
   }
 
