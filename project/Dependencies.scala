@@ -8,7 +8,7 @@ object Dependencies {
     val diffx = "0.3.15"
     val `google-cloud` = "1.102.0"
     val magnolia = "0.12.5"
-    val minitest = "2.7.0"
+    val minitest = "2.8.1"
     val `random-data-generator` = "2.8"
     val `scala-collections-compat` = "2.1.3"
     val `scala-logging` = "3.9.2"
