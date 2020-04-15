@@ -10,7 +10,7 @@ object Dependencies {
     val magnolia = "0.12.5"
     val minitest = "2.7.0"
     val `random-data-generator` = "2.8"
-    val `scala-collections-compat` = "2.1.3"
+    val `scala-collections-compat` = "2.1.5"
     val `scala-logging` = "3.9.2"
   }
 
