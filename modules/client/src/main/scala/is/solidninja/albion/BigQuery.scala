@@ -27,8 +27,7 @@ import com.google.cloud.bigquery.{
 }
 import com.typesafe.scalalogging.StrictLogging
 
-/**
-  * Unsafe wrapper for a string containing SQL.
+/** Unsafe wrapper for a string containing SQL.
   */
 final case class SQLString(sql: String) extends AnyVal
 
@@ -36,8 +35,7 @@ object SQLString {
   implicit val showSQL: Show[SQLString] = Show.show(_.sql)
 }
 
-/**
-  * Table time partitioning parameters
+/** Table time partitioning parameters
   *
   * @see https://cloud.google.com/bigquery/docs/creating-column-partitions
   */
@@ -47,63 +45,51 @@ final case class TablePartitioning(
     expiration: Option[FiniteDuration] = None
 )
 
-/**
-  * Client for the BigQuery API (a safe wrapper for the Java API)
+/** Client for the BigQuery API (a safe wrapper for the Java API)
   */
 trait BigQuery[F[_]] {
 
-  /**
-    * Create a new dataset by name
+  /** Create a new dataset by name
     */
   def createDataset(id: DatasetId): F[DatasetId]
 
-  /**
-    * Create a new dataset with more parameters
+  /** Create a new dataset with more parameters
     */
   def createDataset(info: BQDatasetInfo): F[DatasetId]
 
-  /**
-    * Create a new job with more parameters
+  /** Create a new job with more parameters
     */
   def createJob(info: BQJobInfo): F[BQJobInfo]
 
-  /**
-    * Create a new standard table inside a dataset, with given schema and optional time partitioning
+  /** Create a new standard table inside a dataset, with given schema and optional time partitioning
     */
   def createTable(id: TableId, schema: TableSchema, partitioning: Option[TablePartitioning] = None): F[TableId]
 
-  /**
-    * Create a table with a more expanded range of parameters (e.g. an external table)
+  /** Create a table with a more expanded range of parameters (e.g. an external table)
     */
   def createTable(info: BQTableInfo): F[TableId]
 
-  /**
-    * Delete a dataset. By default, contents are not deleted if the dataset is non-empty
+  /** Delete a dataset. By default, contents are not deleted if the dataset is non-empty
     */
   def deleteDataset(id: DatasetId, deleteContents: Boolean = false): F[Boolean]
 
-  /**
-    * Delete a table and its contents
+  /** Delete a table and its contents
     */
   def deleteTable(id: TableId): F[Boolean]
 
-  /**
-    * Get a dataset's metadata
+  /** Get a dataset's metadata
     */
   def getDataset(id: DatasetId): F[Option[BQDatasetInfo]]
 
-  /**
-    * Get a job's metadata
+  /** Get a job's metadata
     */
   def getJob(id: JobId): F[Option[BQJobInfo]]
 
-  /**
-    * Get a table's metadata
+  /** Get a table's metadata
     */
   def getTable(id: TableId): F[Option[BQTableInfo]]
 
-  /**
-    * Insert rows into a table. Each row has a string row id, that can be used to correlate the row in the response
+  /** Insert rows into a table. Each row has a string row id, that can be used to correlate the row in the response
     *
     * @note This API currently leaves error checking to the user
     */
@@ -113,13 +99,11 @@ trait BigQuery[F[_]] {
       ignoreUnknownValues: Boolean = false
   ): F[BQInsertAllResponse]
 
-  /**
-    * Run a SQL query based on a string, returning an iterable of decoded results
+  /** Run a SQL query based on a string, returning an iterable of decoded results
     */
   def query[A: Decoder](sql: SQLString): F[BigQuery.IterableResult[Either[DecodingError, A]]]
 
-  /**
-    * Run a query based on an expanded query job configuration, returning an iterable of decoded results
+  /** Run a query based on an expanded query job configuration, returning an iterable of decoded results
     */
   def query[A: Decoder](config: BQueryJobConfiguration): F[BigQuery.IterableResult[Either[DecodingError, A]]]
 
@@ -147,8 +131,7 @@ object BigQuery extends StrictLogging {
       opts.getService
     }
 
-  /**
-    * Create the BigQuery client directly from the Java API client
+  /** Create the BigQuery client directly from the Java API client
     */
   def fromRaw[F[_]: Sync](client: BQuery): BigQuery[F] = new BigQuery[F] {
 
@@ -205,8 +188,8 @@ object BigQuery extends StrictLogging {
 
     override def getTable(id: TableId): F[Option[BQTableInfo]] = Sync[F].delay(Option(client.getTable(id)))
 
-    override def insert[A](id: TableId, rows: Seq[(String, A)], ignoreUnknownValues: Boolean)(
-        implicit encoder: Encoder[A]
+    override def insert[A](id: TableId, rows: Seq[(String, A)], ignoreUnknownValues: Boolean)(implicit
+        encoder: Encoder[A]
     ): F[BQInsertAllResponse] = Sync[F].delay {
       val req = rows
         .foldLeft(BQInsertAllRequest.newBuilder(id).setIgnoreUnknownValues(ignoreUnknownValues)) {
@@ -226,16 +209,15 @@ object BigQuery extends StrictLogging {
       log(show"Executing query: ${config.getQuery}") *>
         Sync[F]
           .delay(client.query(config))
-          .map(
-            res =>
-              IterableResult[Either[DecodingError, A]](
-                res.getTotalRows,
-                res
-                  .iterateAll()
-                  .asScala
-                  .iterator
-                  .map(row => decoder.decode(EncodedRepr.Record(row)))
-              )
+          .map(res =>
+            IterableResult[Either[DecodingError, A]](
+              res.getTotalRows,
+              res
+                .iterateAll()
+                .asScala
+                .iterator
+                .map(row => decoder.decode(EncodedRepr.Record(row)))
+            )
           )
 
     private def log[T: Show](msg: => T): F[Unit] = Sync[F].delay(logger.debug(msg.show))

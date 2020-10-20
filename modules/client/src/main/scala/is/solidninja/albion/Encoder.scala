@@ -12,8 +12,7 @@ import scala.jdk.CollectionConverters._
 
 import magnolia._
 
-/**
-  * Internal representation for building the insertable BigQuery Map
+/** Internal representation for building the insertable BigQuery Map
   */
 private[albion] sealed trait MapRepr {
   def value: AnyRef
@@ -24,8 +23,7 @@ private[albion] object MapRepr {
   final case class ValueMap(value: java.util.Map[String, AnyRef]) extends MapRepr
 }
 
-/**
-  * An Encoder that takes a scala type `T` and converts it into a representation that is insertable into a BigQuery
+/** An Encoder that takes a scala type `T` and converts it into a representation that is insertable into a BigQuery
   * table
   */
 trait Encoder[T] {
@@ -94,7 +92,8 @@ object Encoder {
     if (caseClass.isValueClass) instance[T] { t =>
       val param = caseClass.parameters.head
       param.typeclass.repr(param.dereference(t))
-    } else {
+    }
+    else {
       instance { t =>
         val fields: Map[String, AnyRef] = caseClass.parameters.map { p =>
           val label = config.transformMemberNames(p.label)
@@ -105,6 +104,5 @@ object Encoder {
     }
   }
 
-  @debug
   implicit def gen[T]: Typeclass[T] = macro Magnolia.gen[T]
 }

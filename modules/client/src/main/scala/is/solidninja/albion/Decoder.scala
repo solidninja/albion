@@ -22,8 +22,7 @@ import magnolia._
 
 import ScalaCompat._
 
-/**
-  * Internal representation of the BigQuery encoded content
+/** Internal representation of the BigQuery encoded content
   */
 sealed trait EncodedRepr
 
@@ -45,22 +44,20 @@ private[albion] object EncodedRepr {
     def apply(values: List[BQFieldValue], _ev: Dummy): Repeated = {
       val _ = _ev // ugly hack
       new Repeated(
-        values.map(
-          fv =>
-            fv.getAttribute match {
-              case BQFieldValue.Attribute.PRIMITIVE => Field(fv)
-              case BQFieldValue.Attribute.RECORD    => Record(fv.getRecordValue)
-              case BQFieldValue.Attribute.REPEATED =>
-                throw new IllegalStateException("BUG: Found nested REPEATED record, this should not be possible")
-            }
+        values.map(fv =>
+          fv.getAttribute match {
+            case BQFieldValue.Attribute.PRIMITIVE => Field(fv)
+            case BQFieldValue.Attribute.RECORD    => Record(fv.getRecordValue)
+            case BQFieldValue.Attribute.REPEATED =>
+              throw new IllegalStateException("BUG: Found nested REPEATED record, this should not be possible")
+          }
         )
       )
     }
   }
 }
 
-/**
-  * Transformer from the BigQuery internal result representation into a type `A`
+/** Transformer from the BigQuery internal result representation into a type `A`
   */
 trait Decoder[A] { self =>
   def decode(repr: EncodedRepr): Either[DecodingError, A]
@@ -124,8 +121,7 @@ object Decoder {
       case other                                                                                    => Left(TypeMismatch(implicitly[ClassTag[A]].runtimeClass.getName, other.toString))
     }
 
-  /**
-    * @see com.google.cloud.bigquery.FieldValue.getTimestampValue for explanation
+  /** @see com.google.cloud.bigquery.FieldValue.getTimestampValue for explanation
     */
   private def fromTimestamp(s: String): Either[DecodingError, Instant] =
     s.toDoubleOption
@@ -173,8 +169,8 @@ object Decoder {
     override def decode(repr: EncodedRepr): Either[DecodingError, A] = f(repr)
   }
 
-  private def decodeRecord[A](caseClass: CaseClass[Typeclass, A], row: BQFieldValueList)(
-      implicit configuration: Configuration
+  private def decodeRecord[A](caseClass: CaseClass[Typeclass, A], row: BQFieldValueList)(implicit
+      configuration: Configuration
   ): Either[DecodingError, A] =
     caseClass.constructMonadic { p =>
       val label = configuration.transformMemberNames(p.label)
@@ -239,7 +235,6 @@ object Decoder {
     }
   }
 
-  @debug
   implicit def gen[T]: Typeclass[T] = macro Magnolia.gen[T]
 
   // accessors for private schema and row fields

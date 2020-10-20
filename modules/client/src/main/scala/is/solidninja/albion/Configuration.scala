@@ -2,8 +2,7 @@ package is
 package solidninja
 package albion
 
-/**
-  * Customisation of schema derivation or encoding/decoding.
+/** Customisation of schema derivation or encoding/decoding.
   */
 final case class Configuration(transformMemberNames: String => String = identity) {
   def withSnakeCaseMemberNames: Configuration = copy(

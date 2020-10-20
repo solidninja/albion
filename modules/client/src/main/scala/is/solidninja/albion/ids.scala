@@ -6,8 +6,7 @@ import com.google.cloud.bigquery.{TableId => BQTableId, DatasetId => BQDatasetId
 
 import cats.Show
 
-/**
-  * GCloud Project Id
+/** GCloud Project Id
   */
 final case class ProjectId(project: String) extends AnyVal
 
@@ -15,8 +14,7 @@ object ProjectId {
   implicit val showProjectId: Show[ProjectId] = Show.show(_.project)
 }
 
-/**
-  * GCloud Dataset Id, a tuple of (project, dataset)
+/** GCloud Dataset Id, a tuple of (project, dataset)
   */
 final case class DatasetId(project: String, dataset: String)
 
@@ -30,8 +28,7 @@ object DatasetId {
   implicit def fromBQDatasetId(id: BQDatasetId): DatasetId = DatasetId(id.getProject, id.getDataset)
 }
 
-/**
-  * GCloud Table Id, a tuple of (project, dataset, table)
+/** GCloud Table Id, a tuple of (project, dataset, table)
   */
 final case class TableId(project: String, dataset: String, table: String)
 
@@ -46,8 +43,7 @@ object TableId {
   implicit def fromBQTableId(id: BQTableId): TableId = TableId(id.getProject, id.getDataset, id.getTable)
 }
 
-/**
-  * GCloud Job Id
+/** GCloud Job Id
   */
 final case class JobId(jobId: String) extends AnyVal
 

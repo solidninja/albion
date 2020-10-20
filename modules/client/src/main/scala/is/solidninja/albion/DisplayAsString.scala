@@ -2,8 +2,7 @@ package is
 package solidninja
 package albion
 
-/**
-  * Marker typeclass for types that can be displayed as a string. Similar to the `Show` typeclass, but specifically for
+/** Marker typeclass for types that can be displayed as a string. Similar to the `Show` typeclass, but specifically for
   * supporting custom types that should be serialized as a string
   */
 trait DisplayAsString[T] {

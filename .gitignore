@@ -27,3 +27,6 @@ project/plugins/project/
 .ensime
 .idea/
 *.iml
+
+# BSP
+.bsp/

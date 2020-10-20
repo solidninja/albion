@@ -68,8 +68,7 @@ class ListGithubCommitsExampleApp[F[_]: Functor]()(implicit bq: BigQuery[F], me:
   }
 }
 
-/**
-  * Example app to query `bigquery-public-data.github_repos.commits` and print out results
+/** Example app to query `bigquery-public-data.github_repos.commits` and print out results
   *
   * @note You need to be authenticated with gcloud and have the BigQuery API enabled to run this successfully.
   */

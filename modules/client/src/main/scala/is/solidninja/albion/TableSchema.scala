@@ -162,8 +162,7 @@ object TableField {
   implicit def convertFromBQField(field: BQField): TableField = fromBQField(field)
 }
 
-/**
-  * Scala equivalent to [[com.google.cloud.bigquery.Schema]]
+/** Scala equivalent to [[com.google.cloud.bigquery.Schema]]
   */
 final case class TableSchema(fields: List[TableField])
 
