@@ -23,7 +23,7 @@ object BigQueryIntegrationTest extends SimpleTestSuite with StrictLogging with R
   def client: IO[BigQuery[IO]] = BigQuery(IntegrationProject, location = Some("US"))
 
   def tempTable[A: SchemaFor](client: BigQuery[IO]): Resource[IO, TableId] = {
-    val id = s"ittest_${UUID.randomUUID().toString.replaceAllLiterally("-", "_")}"
+    val id = s"ittest_${UUID.randomUUID().toString.replace("-", "_")}"
     val tableId = TableId(IntegrationDataset, id)
     val schema = SchemaFor[A].schema
     logger.debug(show"Using temporary table $tableId for test")
