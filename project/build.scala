@@ -47,7 +47,7 @@ object build {
     organization := "is.solidninja.albion",
     version := "0.1.0",
     scalaVersion := "2.13.3",
-    crossScalaVersions := Seq("2.12.12", "2.13.3"),
+    crossScalaVersions := Seq("2.12.14", "2.13.3"),
     javacOptions ++= Seq("-target", "1.8", "-source", "1.8"),
     manifestSetting,
     crossVersion := CrossVersion.binary,
