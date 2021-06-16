@@ -11,7 +11,7 @@ object Dependencies {
     val minitest = "2.8.2"
     val `random-data-generator` = "2.9"
     val `scala-collections-compat` = "2.2.0"
-    val `scala-logging` = "3.9.2"
+    val `scala-logging` = "3.9.4"
   }
 
   val bigquery = Seq(
