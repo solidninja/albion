@@ -37,7 +37,8 @@ object SQLString {
 
 /** Table time partitioning parameters
   *
-  * @see https://cloud.google.com/bigquery/docs/creating-column-partitions
+  * @see
+  *   https://cloud.google.com/bigquery/docs/creating-column-partitions
   */
 final case class TablePartitioning(
     `type`: BQTimePartitioning.Type,
@@ -91,7 +92,8 @@ trait BigQuery[F[_]] {
 
   /** Insert rows into a table. Each row has a string row id, that can be used to correlate the row in the response
     *
-    * @note This API currently leaves error checking to the user
+    * @note
+    *   This API currently leaves error checking to the user
     */
   def insert[A: Encoder](
       id: TableId,
