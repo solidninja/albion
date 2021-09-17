@@ -118,10 +118,11 @@ object Decoder {
   private def primitiveDecoder[A: ClassTag](f: EncodedRepr.Field => Either[DecodingError, A]): Decoder[A] =
     instance[A] {
       case field: EncodedRepr.Field if field.value.getAttribute == BQFieldValue.Attribute.PRIMITIVE => f(field)
-      case other                                                                                    => Left(TypeMismatch(implicitly[ClassTag[A]].runtimeClass.getName, other.toString))
+      case other => Left(TypeMismatch(implicitly[ClassTag[A]].runtimeClass.getName, other.toString))
     }
 
-  /** @see com.google.cloud.bigquery.FieldValue.getTimestampValue for explanation
+  /** @see
+    *   com.google.cloud.bigquery.FieldValue.getTimestampValue for explanation
     */
   private def fromTimestamp(s: String): Either[DecodingError, Instant] =
     s.toDoubleOption
