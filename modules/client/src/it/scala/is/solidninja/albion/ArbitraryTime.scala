@@ -9,9 +9,9 @@ import scala.jdk.CollectionConverters._
 
 import org.scalacheck.{Arbitrary, Gen}
 
-/**
-  *  Custom instances for date time generation, mainly to limit year range to [0, 9999]
-  * @see https://github.com/47deg/scalacheck-toolbox/blob/master/datetime/src/main/scala/com/fortysevendeg/scalacheck/datetime/jdk8/GenJdk8.scala
+/** Custom instances for date time generation, mainly to limit year range to [0, 9999]
+  * @see
+  *   https://github.com/47deg/scalacheck-toolbox/blob/master/datetime/src/main/scala/com/fortysevendeg/scalacheck/datetime/jdk8/GenJdk8.scala
   */
 object ArbitraryTime {
 

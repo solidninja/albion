@@ -8,8 +8,8 @@ import java.util.UUID
 import magnolia._
 import com.google.cloud.bigquery.{Field => BQField}
 
-/** Internal representation of the schema while it is being derived. Necessary because a primitive field does not have
-  *  a name until we get to a case class, and using a blank name in TableField would feel too hacky
+/** Internal representation of the schema while it is being derived. Necessary because a primitive field does not have a
+  * name until we get to a case class, and using a blank name in TableField would feel too hacky
   */
 private[albion] sealed trait SchemaRepr {
   def mode: BQField.Mode
