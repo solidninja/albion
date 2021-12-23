@@ -39,6 +39,6 @@ object Dependencies {
 
   val runtimeLogging = Seq(
     "com.typesafe.scala-logging" %% "scala-logging" % Versions.`scala-logging`,
-    "ch.qos.logback" % "logback-classic" % "1.2.3" % "runtime"
+    "ch.qos.logback" % "logback-classic" % "1.2.10" % "runtime"
   )
 }
