@@ -3,7 +3,7 @@ import sbt._
 object Dependencies {
 
   object Versions {
-    val cats = "2.2.0"
+    val cats = "2.10.0"
     val `cats-effect` = "2.2.0"
     val diffx = "0.3.29"
     val `google-cloud` = "1.122.2"
