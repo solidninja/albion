@@ -1,4 +1,4 @@
-image: "hseeberger/scala-sbt:11.0.8_1.4.1_2.13.3"
+image: "hseeberger/scala-sbt:11.0.8_1.4.1_2.13.12"
 
 variables:
   SBT_OPTS: "-Dsbt.global.base=sbt-cache/sbtboot -Dsbt.boot.directory=sbt-cache/boot -Dsbt.ivy.home=sbt-cache/ivy -Dsbt.coursier.home=sbt-cache/coursier"
